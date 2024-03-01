@@ -24,8 +24,8 @@ source certbot/venv/bin/activate
 ```
 - Recreate requirements.txt with any plugins
 ```bash
-readonly CERTBOT_VERSION=1.17.0
-readonly CERTBOT_DNS_TENCENTCLOUD_VERSION=1.3.0
+readonly CERTBOT_VERSION=2.9.0
+readonly CERTBOT_DNS_TENCENTCLOUD_VERSION=2.0.2
 pip3 install \
     certbot==${CERTBOT_VERSION} \
     certbot-dns-route53==${CERTBOT_VERSION} \ 
