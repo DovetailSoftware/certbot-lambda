@@ -1,0 +1,36 @@
+name: Build Certbot Lambda Package
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+      
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.11'
+      
+    - name: Run package script
+      run: ./package.sh
+        
+    - name: Show package size
+      run: |
+        echo "Package size:"
+        du -h certbot/certbot.zip || echo "certbot.zip not found"
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: certbot-lambda-package
+        path: certbot/certbot.zip
+        retention-days: 30
