@@ -7,6 +7,7 @@ readonly CERTBOT_VERSION=$( awk -F= '$1 == "certbot"{ print $NF; }' "${SCRIPT_DI
 VENV="certbot/venv"
 readonly PYTHON="python"
 readonly CERTBOT_ZIP_FILE="certbot.zip"
+CERTBOT_SITE_PACKAGES=${VENV}/lib/site-packages
 
 readonly CI=$CI
 
@@ -17,6 +18,7 @@ if [ "${CI}" = true ]; then
     ${PYTHON} -m venv $VENV
     VENV=$GITHUB_WORKSPACE/$VENV
     source $VENV/bin/activate
+    CERTBOT_SITE_PACKAGES=${VENV}/lib/python3.11/site-packages
 else
     echo "Running in local mode"
     ${PYTHON} -m venv "${VENV}"
@@ -24,9 +26,6 @@ else
 fi
 
 pip install -r requirements.txt
-
-readonly CERTBOT_SITE_PACKAGES=${VENV}/lib/site-packages
-ls -a $VENV/lib/python3.11
 
 pushd ${CERTBOT_SITE_PACKAGES}
     7z a -tzip ${SCRIPT_DIR}/certbot/${CERTBOT_ZIP_FILE} . -xr!__pycache__
