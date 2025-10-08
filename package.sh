@@ -4,7 +4,7 @@ set -e
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly CERTBOT_VERSION=$( awk -F= '$1 == "certbot"{ print $NF; }' "${SCRIPT_DIR}/requirements.txt" )
-readonly VENV="certbot/venv"
+VENV="certbot/venv"
 readonly PYTHON="python"
 readonly CERTBOT_ZIP_FILE="certbot.zip"
 readonly CERTBOT_SITE_PACKAGES=${VENV}/Lib/site-packages
@@ -16,7 +16,8 @@ cd "${SCRIPT_DIR}"
 if [ "${CI}" = true ]; then
     echo "Running in CI mode"
     ${PYTHON} -m venv $VENV
-    source ${GITHUB_WORKSPACE}/$VENV/bin/activate
+    $VENV=$GITHUB_WORKSPACE/$VENV
+    source $VENV/bin/activate
 else
     echo "Running in local mode"
     ${PYTHON} -m venv "${VENV}"
