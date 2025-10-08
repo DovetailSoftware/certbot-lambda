@@ -6,7 +6,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly CERTBOT_VERSION=$( awk -F= '$1 == "certbot"{ print $NF; }' "${SCRIPT_DIR}/requirements.txt" )
 VENV="certbot/venv"
 readonly PYTHON="python"
-readonly CERTBOT_ZIP_FILE="certbot.zip"
+readonly CERTBOT_ZIP_FILE="certbot-lambda.zip"
 CERTBOT_SITE_PACKAGES=${VENV}/lib/site-packages
 
 readonly CI=$CI
