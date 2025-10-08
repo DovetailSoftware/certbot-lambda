@@ -26,7 +26,7 @@ fi
 pip install -r requirements.txt
 
 readonly CERTBOT_SITE_PACKAGES=${VENV}/lib/site-packages
-ls -a $VENV
+ls -a $VENV/lib
 
 pushd ${CERTBOT_SITE_PACKAGES}
     7z a -tzip ${SCRIPT_DIR}/certbot/${CERTBOT_ZIP_FILE} . -xr!__pycache__
