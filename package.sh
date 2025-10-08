@@ -7,7 +7,6 @@ readonly CERTBOT_VERSION=$( awk -F= '$1 == "certbot"{ print $NF; }' "${SCRIPT_DI
 VENV="certbot/venv"
 readonly PYTHON="python"
 readonly CERTBOT_ZIP_FILE="certbot.zip"
-readonly CERTBOT_SITE_PACKAGES=${VENV}/Lib/site-packages
 
 readonly CI=$CI
 
@@ -25,6 +24,8 @@ else
 fi
 
 pip install -r requirements.txt
+
+readonly CERTBOT_SITE_PACKAGES=${VENV}/Lib/site-packages
 
 pushd ${CERTBOT_SITE_PACKAGES}
     7z a -tzip ${SCRIPT_DIR}/certbot/${CERTBOT_ZIP_FILE} . -xr!__pycache__
