@@ -9,10 +9,18 @@ readonly PYTHON="python"
 readonly CERTBOT_ZIP_FILE="certbot.zip"
 readonly CERTBOT_SITE_PACKAGES=${VENV}/Lib/site-packages
 
+readonly CI=$CI
+
 cd "${SCRIPT_DIR}"
 
-${PYTHON} -m venv "${VENV}"
-source "${VENV}/Scripts/activate"
+if [ "${CI}" = true ]; then
+    echo "Running in CI mode"
+    . .venv/bin/activate
+else
+    echo "Running in local mode"
+    ${PYTHON} -m venv "${VENV}"
+    source "${VENV}/Scripts/activate"
+fi
 
 pip install -r requirements.txt
 
