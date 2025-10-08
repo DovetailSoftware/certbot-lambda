@@ -62,7 +62,7 @@ jobs:
 
   get-version:
     runs-on: ubuntu-latest
-    needs: [build, setup-build-workflow]
+    needs: setup-build-workflow
 
     outputs:
       NEXT_VERSION: ${{ steps.get-version.outputs.NEXT_VERSION }}
@@ -90,6 +90,7 @@ jobs:
             
   build:
     runs-on: ubuntu-latest
+    needs: get-version
     env: 
       CI: true
       AWS_REGION: us-west-2
