@@ -15,7 +15,7 @@ cd "${SCRIPT_DIR}"
 
 if [ "${CI}" = true ]; then
     echo "Running in CI mode"
-    . .venv/bin/activate
+    . ${GITHUB_WORKSPACE}/.venv/bin/activate
 else
     echo "Running in local mode"
     ${PYTHON} -m venv "${VENV}"
