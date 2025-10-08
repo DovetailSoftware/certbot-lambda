@@ -108,7 +108,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: '3.11'
+        python-version: '3.13'
       
     - name: Run package script
       run: ./package.sh
@@ -116,7 +116,7 @@ jobs:
     - name: Show package size
       run: |
         echo "Package size:"
-        du -h certbot/certbot.zip || echo "certbot.zip not found"
+        du -h certbot/certbot-lambda.zip || echo "certbot-lambda.zip not found"
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4

@@ -18,7 +18,7 @@ if [ "${CI}" = true ]; then
     ${PYTHON} -m venv $VENV
     VENV=$GITHUB_WORKSPACE/$VENV
     source $VENV/bin/activate
-    CERTBOT_SITE_PACKAGES=${VENV}/lib/python3.11/site-packages
+    CERTBOT_SITE_PACKAGES=${VENV}/lib/python3.13/site-packages
 else
     echo "Running in local mode"
     rm -rf ./certbot
