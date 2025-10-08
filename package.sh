@@ -21,6 +21,7 @@ if [ "${CI}" = true ]; then
     CERTBOT_SITE_PACKAGES=${VENV}/lib/python3.11/site-packages
 else
     echo "Running in local mode"
+    rm -rf ./certbot
     ${PYTHON} -m venv "${VENV}"
     source "${VENV}/Scripts/activate"
 fi
