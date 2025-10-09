@@ -4,20 +4,32 @@ set -e
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly CERTBOT_VERSION=$( awk -F= '$1 == "certbot"{ print $NF; }' "${SCRIPT_DIR}/requirements.txt" )
-readonly VENV="certbot/venv"
-readonly PYTHON="python3"
-readonly CERTBOT_ZIP_FILE="certbot.zip"
-readonly CERTBOT_SITE_PACKAGES=${VENV}/Lib/site-packages
+VENV="certbot/venv"
+readonly PYTHON="python"
+readonly CERTBOT_ZIP_FILE="certbot-lambda.zip"
+CERTBOT_SITE_PACKAGES=${VENV}/lib/site-packages
+
+readonly CI=$CI
 
 cd "${SCRIPT_DIR}"
 
-${PYTHON} -m venv "${VENV}"
-source "${VENV}/Scripts/activate"
+if [ "${CI}" = true ]; then
+    echo "Running in CI mode"
+    ${PYTHON} -m venv $VENV
+    VENV=$GITHUB_WORKSPACE/$VENV
+    source $VENV/bin/activate
+    CERTBOT_SITE_PACKAGES=${VENV}/lib/python3.13/site-packages
+else
+    echo "Running in local mode"
+    rm -rf ./certbot
+    ${PYTHON} -m venv "${VENV}"
+    source "${VENV}/Scripts/activate"
+fi
 
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 
 pushd ${CERTBOT_SITE_PACKAGES}
-    zip -r -q ${SCRIPT_DIR}/certbot/${CERTBOT_ZIP_FILE} . -x "/*__pycache__/*"
+    7z a -tzip ${SCRIPT_DIR}/certbot/${CERTBOT_ZIP_FILE} . -xr!__pycache__
 popd
 
-zip -g "certbot/${CERTBOT_ZIP_FILE}" main.py
+7z a -tzip "certbot/${CERTBOT_ZIP_FILE}" main.py
