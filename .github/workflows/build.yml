@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Set default env variables
         id: set-vars
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
           script: |
             const targetRef = '${{ github.base_ref }}';
@@ -48,7 +48,7 @@ jobs:
 
       - name: Check if Dependabot PR
         id: actor_check
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
           script: |
             const actor = '${{ github.actor}}';
@@ -69,12 +69,12 @@ jobs:
       NEXT_VERSION_NO_PREFIX: ${{ steps.get-version.outputs.NEXT_VERSION_NO_PREFIX }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0 # Includes all history for all branches and tags
 
       - id: get-version
-        uses: joemcbride/git-version-lite@v3.2.0
+        uses: joemcbride/git-version-lite@44c6ca7c0185e46af18ac4fb8845adf55489474b # v3.2.0
         with:
           calculate-prerelease-version: ${{ needs.setup-build-workflow.outputs.IS_PRERELEASE }}
           branch-name: ${{ needs.setup-build-workflow.outputs.REF_TO_BUILD_AND_TAG }}
@@ -103,10 +103,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
         python-version: '3.13'
       
@@ -119,14 +119,14 @@ jobs:
         du -h certbot/certbot-lambda.zip || echo "certbot-lambda.zip not found"
       
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: certbot-lambda-package
         path: certbot/certbot-lambda.zip
         retention-days: 30
 
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v5
+      uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
       with:
         role-to-assume: arn:aws:iam::888985673581:role/GithubActions-DovetailSofware_Org-OIDC
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
