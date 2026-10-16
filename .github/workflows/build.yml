@@ -135,4 +135,11 @@ jobs:
     - name: Upload Certbot Lambda Assets to S3
       working-directory: certbot
       run: |
-        aws s3 cp . s3://jenkins-artifacts.us-west-2.dovetailnow.com/jobs/certbot-lambda/$NEXT_VERSION_NO_PREFIX --recursive --exclude "*" --include "*.zip"
+        set -euo pipefail
+        DEST="s3://jenkins-artifacts.us-west-2.dovetailnow.com/jobs/certbot-lambda/$NEXT_VERSION_NO_PREFIX"
+        # --no-overwrite skips an existing key with no error, so fail here first.
+        if aws s3 ls "$DEST/" > /dev/null; then
+          echo "::error::$DEST/ already exists"
+          exit 1
+        fi
+        aws s3 cp . "$DEST" --recursive --exclude "*" --include "*.zip" --no-overwrite
